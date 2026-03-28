@@ -56,10 +56,17 @@ st.markdown("""
 with st.sidebar:
     st.markdown("### Configuration")
 
+    # Read API key from Streamlit secrets (cloud) or env var (local)
+    default_key = ""
+    if hasattr(st, "secrets") and "ANTHROPIC_API_KEY" in st.secrets:
+        default_key = st.secrets["ANTHROPIC_API_KEY"]
+    else:
+        default_key = os.environ.get("ANTHROPIC_API_KEY", "")
+
     api_key = st.text_input(
         "Anthropic API Key",
         type="password",
-        value=os.environ.get("ANTHROPIC_API_KEY", ""),
+        value=default_key,
         help="Get your key at console.anthropic.com",
     )
 
