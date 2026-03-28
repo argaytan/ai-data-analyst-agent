@@ -58,9 +58,9 @@ with st.sidebar:
 
     # Read API key from Streamlit secrets (cloud) or env var (local)
     default_key = ""
-    if hasattr(st, "secrets") and "ANTHROPIC_API_KEY" in st.secrets:
+    try:
         default_key = st.secrets["ANTHROPIC_API_KEY"]
-    else:
+    except (FileNotFoundError, KeyError):
         default_key = os.environ.get("ANTHROPIC_API_KEY", "")
 
     api_key = st.text_input(
